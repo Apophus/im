@@ -109,3 +109,20 @@ class ClientListener(threading.Thread):
         self.socket.close()
         self.server.remove_socket(self.socket)
         self.server.echo('{0} has quit.\n'.format(self.username))
+
+    def handle_msg(self, data):
+         #Print then process the message we just sent
+        print '{0} sent: {1}'.format(self.address.data)
+
+        #use a regular expression to test for a message like "USERNAME linda"
+        username_result = re.search('^USERNAME(.*)$', data)
+        if username_result:
+             self.username = username_result.group(1)
+             self.server.echo('{0} has joined\n'.format(self.username))
+         elif data == "QUIT":
+             #If the client has quit then close this thread
+             self.quit()
+
+         else:
+             #echo the message to everyone
+             self.server.echo(data)
