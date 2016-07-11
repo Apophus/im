@@ -126,3 +126,11 @@ class ClientListener(threading.Thread):
          else:
              #echo the message to everyone
              self.server.echo(data)
+
+
+#Start the server
+
+if __name__ == "__main__":
+    #Start the server on port 59091
+    server = Server(59091)
+    server.run()
