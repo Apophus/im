@@ -75,3 +75,37 @@ class Server():
         #LET each client know that we're quitting
         self.echo('QUIT')
 
+class ClientListener(threading.Thread):
+    def __init__(self, server, socket, address):
+        #Initialize the Thread base class
+        super(ClientListener, self).__init__()
+
+        #Store the values tat have been passed to the constructor
+        self.server = server
+        self.address = address
+        self.socket = socket
+        self.listening = True
+        self. username = 'No Username'
+
+    def run(self):
+
+        while self.listening:
+            data = " "
+            try:
+                data = self.socket.recv(1024)
+
+            except socket.error:
+                "Unable to receive data"
+
+            self.handle_msg(data)
+            time.sleep(0.1)
+
+        print 'Ending client thread for  {0}'.format(self.address)
+
+        #Tidying up
+    def quit(self):
+
+        self.listening = False
+        self.socket.close()
+        self.server.remove_socket(self.socket)
+        self.server.echo('{0} has quit.\n'.format(self.username))
