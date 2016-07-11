@@ -25,3 +25,27 @@ class MainWindow(gtk.Window):
         send_button = gtk.Button("Send")
         self.text_buffer = gtk.TextBuffer()
         text_view = gtk.TextView(self.text_buffer)
+
+        #Connect events
+        self.connect("destroy", self.graceful_quit)
+        send_button.connect("clicked", self.send_message)
+        #Activate when user presses enter
+        self.text_entry.connect("activate", self.send_message)
+
+         #Do layout
+        vbox.pack_start(text_view)
+        hbox.pack_start(self.username_label, expand=False)
+        hbox.pack_start(self.text_entry)
+        hbox.pack_end(hbox, expand=False)
+
+        #Display
+        self.add(vbox)
+        self.show_all()
+
+        #Configurations
+        self.configure()
+
+    def ask_for_info(selfself, question):
+
+        dialog = gtk.MessageDialog(parent=self, type=gtk.MESSAGE_QUESTION)
+
