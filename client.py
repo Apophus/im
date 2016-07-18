@@ -45,7 +45,21 @@ class MainWindow(gtk.Window):
         #Configurations
         self.configure()
 
-    def ask_for_info(selfself, question):
+    def ask_for_info(self, question):
+     #shows a messae box with a text entry and returns the response
+        dialog = gtk.MessageDialog(parent=self, type=gtk.MESSAGE_QUESTION, flags=gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, buttons = gtk.BUTTONS_OK_CANCEL, message_format = question)
+        entry = gtk.entry()
+        entry.show()
+        dialog.vbox.pack_end(entry)
+        response = dialog.run()
+        response_text = entry.get_text()
+        dialog.destroy()
 
-        dialog = gtk.MessageDialog(parent=self, type=gtk.MESSAGE_QUESTION)
+        if response == gtk.RESPONSE_OK:
+            return response_text
+        else:
+            return None
+
+
+
 
